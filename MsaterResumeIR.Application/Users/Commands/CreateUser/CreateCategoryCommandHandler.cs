@@ -1,13 +1,15 @@
 ﻿using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using MsaterResumeIR.Application.Common;
 using MsaterResumeIR.Domain.Entities;
+using MsaterResumeIR.Domain.Interface;
 
 namespace MsaterResumeIR.Application.Users.Commands.CreateUser;
 
-public class CreateCategoryCommandHandler(IApplicationDbContext dbContext)
+public class CreateCategoryCommandHandler([FromKeyedServices("EF")] ICategoryRepository repCategory)
     : IRequestHandler<CreateCategoryCommand, int>
 {
-    private readonly IApplicationDbContext _dbContext = dbContext;
+    private readonly ICategoryRepository _repCategory = repCategory;
 
     public async Task<int> Handle(CreateCategoryCommand request, CancellationToken cancellationToken = default)
     {
@@ -15,9 +17,8 @@ public class CreateCategoryCommandHandler(IApplicationDbContext dbContext)
         {
             Name = request.Name,
         };
-        
-        _dbContext.Category.Add(Category);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _repCategory.AddAsync(Category);
+
         //order
         //notifacation
 
