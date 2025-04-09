@@ -19,7 +19,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Results;
-using MsaterResumeIR.Application.Users.Commands.CreateUser;
+
 namespace MsaterResumeIR.Application
 {
  
@@ -31,15 +31,6 @@ namespace MsaterResumeIR.Application
     {
         public static IServiceCollection RegisterApplicationServices(this IServiceCollection services)
         {
-            //services.AddFluentValidationAutoValidation();
-    
-          //  services.AddScoped<IValidator<CreateCategoryCommand>, CreateCategoryCommandValidator>();
-
-
-            // 3. ثبت سرویس‌های دیگر (اختیاری)
-            // اگر سرویس‌های دیگری در لایه Application دارید، می‌توانید آن‌ها را در اینجا ثبت کنید.
-            // services.AddScoped<IMyService, MyService>();
-            // ثبت MediatR
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssembly(typeof(ApplicationServiceRegistration).Assembly);
@@ -51,6 +42,8 @@ namespace MsaterResumeIR.Application
             // اضافه کردن Validation Pipeline Behavior
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
+
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             return services;
          
         }

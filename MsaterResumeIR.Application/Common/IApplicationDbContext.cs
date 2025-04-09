@@ -5,7 +5,7 @@ namespace MsaterResumeIR.Application.Common;
 
 public interface IApplicationDbContext
 {
-    DbSet<Category> Category { get; }
+    DbSet<Domain.Entities.Category> Category { get; }
 
     int SaveChanges();
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);

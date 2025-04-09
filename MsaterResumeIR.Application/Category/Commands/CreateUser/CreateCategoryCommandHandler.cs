@@ -1,22 +1,21 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using MsaterResumeIR.Application.Common;
 using MsaterResumeIR.Domain.Entities;
 using MsaterResumeIR.Domain.Interface;
 
-namespace MsaterResumeIR.Application.Users.Commands.CreateUser;
+namespace MsaterResumeIR.Application.Category.Commands.CreateUser;
 
-public class CreateCategoryCommandHandler([FromKeyedServices("EF")] ICategoryRepository repCategory)
+public class CreateCategoryCommandHandler([FromKeyedServices("EF")] ICategoryRepository repCategory,IMapper mapper)
     : IRequestHandler<CreateCategoryCommand, int>
 {
     private readonly ICategoryRepository _repCategory = repCategory;
 
     public async Task<int> Handle(CreateCategoryCommand request, CancellationToken cancellationToken = default)
     {
-        var Category = new Category
-        {
-            Name = request.Name,
-        };
+
+
+        var Category = mapper.Map<Domain.Entities.Category>(request);
         await _repCategory.AddAsync(Category);
 
         //order

@@ -1,16 +1,24 @@
-﻿
+﻿using Microsoft.AspNetCore.Razor.TagHelpers;
+using System.Threading.Tasks;
 
-
-namespace MsaterResumeIR.Tools.TagHelper.TagHelpers
+namespace CustomTagHelper.TagHelpers
 {
     using Microsoft.AspNetCore.Razor.TagHelpers;
-    public class HelloTagHelper : TagHelper
+    using System.Text;
+
+    [HtmlTargetElement("my-first-tag-helper")]
+    public class MyCustomTagHelper : TagHelper
     {
+        public string Name { get; set; }
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            // تنظیم خروجی HTML
-            output.TagName = "div"; // تگ <div> را به عنوان خروجی تنظیم می‌کنیم
-            output.Content.SetContent("سلام دنیا!"); // محتوای داخل تگ
+            output.TagName = "CustumTagHelper";
+            output.TagMode = TagMode.StartTagAndEndTag;
+
+            var sb = new StringBuilder();
+            sb.AppendFormat("<span>Hi! {0}</span>", this.Name);
+
+            output.PreContent.SetHtmlContent(sb.ToString());
         }
     }
 }

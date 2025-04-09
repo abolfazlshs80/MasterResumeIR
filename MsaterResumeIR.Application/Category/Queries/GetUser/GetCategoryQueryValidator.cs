@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace MsaterResumeIR.Application.Users.Queries.GetUser;
+namespace MsaterResumeIR.Application.Category.Queries.GetUser;
 
 public class GetCategoryQueryValidator : AbstractValidator<GetCategoryQuery>
 {

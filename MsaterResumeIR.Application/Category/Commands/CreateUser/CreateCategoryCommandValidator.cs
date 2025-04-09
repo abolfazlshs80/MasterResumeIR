@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace MsaterResumeIR.Application.Users.Commands.CreateUser;
+namespace MsaterResumeIR.Application.Category.Commands.CreateUser;
 
 public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCommand>
 {

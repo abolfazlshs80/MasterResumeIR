@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MsaterResumeIR.Application.Users.Commands.CreateUser;
-using MsaterResumeIR.Application.Users.Queries.GetUser;
+using MsaterResumeIR.Application.Category.Commands.CreateUser;
+using MsaterResumeIR.Application.Category.Queries.GetUser;
 
 namespace MsaterResumeIR.Presentation.Controllers;
 
@@ -11,6 +11,8 @@ public class CategoryController : BaseController
     {
         GetCategoryQuery query=new GetCategoryQuery (1);
         var model = await Mediator.Send(query);
+        var a = new GetCategoryDto(1,"");
+        
         return Content(model.Name);
     }
     [HttpGet]
@@ -33,7 +35,7 @@ public class CategoryController : BaseController
             
         //    }
         //}
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
             return View();
         }
