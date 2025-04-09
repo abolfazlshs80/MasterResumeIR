@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MsaterResumeIR.Presentation.Controllers;
 
 [Route("[controller]/[action]")]
-public abstract class BaseController : ControllerBase
+public abstract class BaseController : Controller
 {
     private ISender? _mediator;
 

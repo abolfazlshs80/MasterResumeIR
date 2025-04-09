@@ -1,3 +1,5 @@
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using MsaterResumeIR.Application;
 using MsaterResumeIR.Application.Common;
@@ -14,7 +16,19 @@ namespace MsaterResumeIR.Presentation
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            
+            //.AddFluentValidation(options =>
+            //{
+            //    // ثبت Validatorها از Assembly جاری
+            //    options.RegisterValidatorsFromAssemblyContaining<Program>();
+            //}); ;
+
+            // Add FluentValidation
+            builder.Services.AddFluentValidationAutoValidation(); // اعتبارسنجی خودکار سمت سرور
+            builder.Services.AddFluentValidationClientsideAdapters(); // اعتبارسنجی سمت کلاینت (اختیاری)
+
+            // ثبت Validatorها از Assembly جاری
+            builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
             string connection = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.RegisterApplicationServices();
             builder.Services.RegisterInfrastructureServices(connection);

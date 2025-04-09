@@ -31,28 +31,28 @@ namespace MsaterResumeIR.Application
     {
         public static IServiceCollection RegisterApplicationServices(this IServiceCollection services)
         {
-            // 1. ثبت Validatorها با استفاده از FluentValidation
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            //services.AddFluentValidationAutoValidation();
+    
+          //  services.AddScoped<IValidator<CreateCategoryCommand>, CreateCategoryCommandValidator>();
 
-            // 2. ثبت MediatR و اضافه کردن Pipeline Behaviors
-            services.AddMediatR(cfg =>
-            {
-                cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-
-                // اضافه کردن Behavior برای اعتبارسنجی (Validation)
-
-
-                //services.AddFluentValidationAutoValidation();
-                services.AddScoped<IValidator<CreateCategoryCommand>, CreateCategoryCommandValidator>();
-
-                //cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(<ValidationC,>));
-            });
 
             // 3. ثبت سرویس‌های دیگر (اختیاری)
             // اگر سرویس‌های دیگری در لایه Application دارید، می‌توانید آن‌ها را در اینجا ثبت کنید.
             // services.AddScoped<IMyService, MyService>();
+            // ثبت MediatR
+            services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssembly(typeof(ApplicationServiceRegistration).Assembly);
+            });
+
+            // ثبت Validatorها
+            services.AddValidatorsFromAssembly(typeof(ApplicationServiceRegistration).Assembly);
+
+            // اضافه کردن Validation Pipeline Behavior
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             return services;
+         
         }
     }
 }
