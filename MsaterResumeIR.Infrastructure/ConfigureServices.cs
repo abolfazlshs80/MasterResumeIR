@@ -18,12 +18,13 @@ using MsaterResumeIR.Infrastructure.Implement;
 
 
 public static class ConfigureServices
+{
+    public static IServiceCollection RegisterInfrastructureServices(this IServiceCollection services, string con_string)
     {
-        public static IServiceCollection RegisterInfrastructureServices(this IServiceCollection services, string con_string)
-        {
+        services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
         services.AddKeyedScoped<ICategoryRepository, DapperCategoryRepository>("Dapper");
         services.AddKeyedScoped<ICategoryRepository, EfCoreCategoryRepository>("EF");
-        services .AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+        services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
         // Add DbContext for EF Core
         services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(con_string));
@@ -34,9 +35,9 @@ public static class ConfigureServices
             return new SqlConnection(connectionString);
         });
         return services;
-        }
-
     }
+
+}
 
 
 
